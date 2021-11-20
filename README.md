@@ -12,7 +12,8 @@ To create these numerical representations, and create other interesting
 variables aka _features_, we must pass data through a preprocessing step
 aka _feature engineering_.
 Bulgogi is a system to simplify this process, via centralization of
-concerns and coupling with a feature store [1](https://www.tecton.ai/blog/what-is-a-feature-store/)[2](https://medium.com/p/402ade0743b).
+concerns and coupling with a feature store [[1](https://www.tecton.ai/blog/what-is-a-feature-store/)]
+[[2](https://medium.com/p/402ade0743b)].
 
 Presently, Bulgogi is nothing more than an idea and this repository is a
 playground for experimentation.
