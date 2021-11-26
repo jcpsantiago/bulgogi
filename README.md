@@ -3,7 +3,7 @@ A feature preprocessing system. Very tasty.
 
 # What's in a bulgogi?
 
-Machine learning model are cool, but they're also picky beasts.
+Machine learning is cool, but those models are picky beasts.
 Most statistical models don't handle anything else beyond numbers,
 thus the development of techniques such as one-hot encoding for 
 categorical variables (e.g. a country variable).
