@@ -22,6 +22,14 @@
         (if (true? b) 1 0)))
 
 
+(defn email-name
+  "Lower-cased name of an email address (the bit before @)"
+  [email]
+  (-> email
+      s/lower-case
+      (s/replace-first #"@.*" "")))
+
+
 ;; ---- features -----
 ;; Features are variables used in Machine Learning models. They're like fn args, if a model was just
 ;; a function: `(model feature1 feature2 ...)`.
@@ -30,27 +38,19 @@
 ;; an input-map as input, extracting what they need and returning some value.
 ;; The following features are representative of the types I've used in production.
 
-(defn email-name
-  "Lower-cased name of an email address (the bit before @)"
-  [{email :email}]
-  (-> email
-      s/lower-case
-      (s/replace-first #"@.*" "")))
-
-
 (defn n-digits-in-email-name
   "Number of digits in the email name"
-  [input-data]
+  [{email :email}]
   ;; we get dependency management for free because everything is just functions
-  (->> (email-name input-data)
+  (->> (email-name email)
        (re-seq #"\d")
        count))
 
 
 (defn n-chars-in-email-mail
   "Number of characters in the email name i.e. length of the email name"
-  [input-data]
-  (-> (email-name input-data)
+  [{email :email}]
+  (-> (email-name email)
       count))
 
 
@@ -120,7 +120,7 @@
                 "diff-eur-previous-order"]}))
 
 
-(let [req (edn/read *in*)
+(let [;; req (edn/read *in*)
       res (->> req
                preprocessed
                (response req))]

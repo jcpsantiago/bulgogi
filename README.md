@@ -1,5 +1,5 @@
 # bulgogi
-A feature preprocessing system. Very tasty.
+Helper for ML feature preprocessing. Very tasty.
 
 # What's in a bulgogi?
 
@@ -25,9 +25,22 @@ Ideas and discussion are welcome!
 
 # How can I try it out?
 
-Bulgogi is supposed to become the central repository for features
-which need transformations ("just-in-time"), but it does not prescribe
-a way to be served.
-It's up to you to wrap it in an API, CLI, <add your preferred interface>.
-Presently, you can try it in the REPL :)
+The main meat in `bulgogi` is the `preprocessed` function.
+It takes in a request map
+```clj
+{:input-data {:current-amount 700
+	      :email "squadron42@starfleet.ufp"
+	      :items [{:brand "Foo Industries" :value 1234}
+		      {:brand "Baz Corp" :value 35345}]}
+ :features ["n-digits-in-email-name" 
+	    "contains-risky-item"]}
+```
 
+looks for functions with the same name as the vals in `:features` in the current 
+namespace (likely to change!),
+and `pmaps` those fns to the `:input-data`.
+Finally, it returns a map with the preprocessed data
+```clj
+{:n-digits-in-email-name 2
+ :contains-risky-item 1}
+```
