@@ -1,4 +1,4 @@
-# A mini feature store using Bulgogi
+# A mini feature store using bulgogi
 This example uses `bulgogi` to build a mini feature store.
 It's _mini,_ because it only implements just-in-time features.
 
@@ -25,7 +25,6 @@ printf '{
  which should result in
  ```json
  {
-    "hour": 11,
     "n-chars-in-email-name": 10,
     "n-digits-in-email-name": 2
 }
