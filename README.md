@@ -25,6 +25,8 @@ Ideas and discussion are welcome!
 
 # How can I try it out?
 
+You can see an example implementation in the `/example` dir.
+
 The main meat in `bulgogi` is the `preprocessed` function.
 It takes in a request map with keys `:input-data` (another map) and `:features` (a vector of strings)
 ```clj
