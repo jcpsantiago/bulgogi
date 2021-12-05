@@ -3,9 +3,10 @@
 
 
 (defn- resolved-features
-  [features]
+  [features -ns]
   (->> features
-       (map #(-> % symbol resolve))))
+       (map #(let [sym (symbol %)]
+               (ns-resolve -ns sym)))))
 
 
 (defn- transformed
@@ -30,9 +31,11 @@
   "
   ;; TODO probably a good idea to also take a namespace or some data
   ;; structure which keeps all features from needed namespaces for easy access
-  [req]
-  (let [{:keys [input-data features]} req
-        fns (resolved-features features)
-        fn-ks (map keyword features)]
-    (->> (transformed input-data fns)
-         (zipmap fn-ks))))
+  ([req]
+   (preprocessed req *ns*))
+  ([req -ns]
+   (let [{:keys [input-data features]} req
+         fns (resolved-features features -ns)
+         fn-ks (map keyword features)]
+     (->> (transformed input-data fns)
+          (zipmap fn-ks)))))
