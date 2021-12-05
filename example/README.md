@@ -7,7 +7,7 @@ Before trying it out, you need a running Postgres instance e.g.:
 ```sh
 docker run -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust postgres
 ```
-start the system with `clojure -m example.main` and hit it with a request e.g. using `httpie`
+start the system with `clojure -m example.main` and hit it with a request e.g. using [httpie](https://httpie.io/cli)
 ```sh
 printf '{
   "trigger-id": "42",
@@ -31,4 +31,7 @@ printf '{
 }
  ```
  and three rows in the `calculation_history` table, one for each feature name-value pair.
- Try the same request but add `hour` to the `features` array. 
+ Try the same request but add `hour` to the `features` array.
+ 
+ ## TODO
+ * train simple model using data from the feature store
