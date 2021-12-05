@@ -25,7 +25,6 @@ printf '{
  which should result in
  ```json
  {
-    "hour": 11,
     "n-chars-in-email-name": 10,
     "n-digits-in-email-name": 2
 }
