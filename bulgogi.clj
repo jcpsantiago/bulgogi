@@ -10,7 +10,6 @@
                 :previous-amount 2344}}
   "
   (:require
-    [clojure.edn :as edn]
     [clojure.string :as s]))
 
 
