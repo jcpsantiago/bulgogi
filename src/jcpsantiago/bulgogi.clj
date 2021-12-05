@@ -29,8 +29,6 @@
   Looks for the features in the namespace and applies them to the input-data
   in parallel. Returns a map of feature-keys and feature-values.
   "
-  ;; TODO probably a good idea to also take a namespace or some data
-  ;; structure which keeps all features from needed namespaces for easy access
   [req -ns]
   (let [{:keys [input-data features]} req
         fns (resolved-features features -ns)
