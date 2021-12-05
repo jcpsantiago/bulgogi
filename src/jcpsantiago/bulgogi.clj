@@ -31,11 +31,9 @@
   "
   ;; TODO probably a good idea to also take a namespace or some data
   ;; structure which keeps all features from needed namespaces for easy access
-  ([req]
-   (preprocessed req *ns*))
-  ([req -ns]
-   (let [{:keys [input-data features]} req
-         fns (resolved-features features -ns)
-         fn-ks (map keyword features)]
-     (->> (transformed input-data fns)
-          (zipmap fn-ks)))))
+  [req -ns]
+  (let [{:keys [input-data features]} req
+        fns (resolved-features features -ns)
+        fn-ks (map keyword features)]
+    (->> (transformed input-data fns)
+         (zipmap fn-ks))))
