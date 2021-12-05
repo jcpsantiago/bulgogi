@@ -26,12 +26,25 @@ I gave a [talk](https://youtu.be/3C1QQXEg_F8?t=25091) at [re:Clojure 2021](http:
 
 Ideas and discussion are welcome!
 
-# How can I try it out?
 
-You can see an example implementation in the `/example` dir.
+# What bulgogi is not
+This is definitly not a replacement for ML pipelines (sci-kit learn pipelines, tidymodels workflows) in all situations.
+If the cost of higher latency (no benchmarks yet about how much) is higher than the cost of quicker collaboration, then by all means use a pipeline.
+
+
+# Installation
+
+Bulgogi is not in Clojars yet, but you can try it with `deps.edn`:
+```clj
+{:deps {io.github.jcpsantiago/bulgogi {:git/url "https://github.com/jcpsantiago/bulgogi/"
+				       :git/sha "278ce2738f26d4100b3470f133f682ad450662c4"}}
+```
+
+# Usage
+You can see an example implementation in [/example](https://github.com/jcpsantiago/bulgogi/tree/main/example).
 
 The main meat in `bulgogi` is the `preprocessed` function.
-It takes in a request map with keys `:input-data` (another map) and `:features` (a vector of strings)
+It takes in a request map with keys `:input-data` (another map) and `:features` (a vector of strings) e.g.
 ```clj
 {:input-data {:current-amount 700
 	      :email "squadron42@starfleet.ufp"
