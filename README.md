@@ -15,6 +15,8 @@ Bulgogi is a system to simplify this process, via centralization of
 concerns and coupling with a feature store [[1](https://www.tecton.ai/blog/what-is-a-feature-store/)]
 [[2](https://medium.com/p/402ade0743b)].
 
+![a diagram showing bulgogi getting requests from a model in production, storing the results to a database and training a new model with data from that database without redoing feature engineering](/doc/bulgogi_diagram.png "Bulgogi as the central feature repository")
+
 Presently, Bulgogi is nothing more than an idea and this repository is a
 playground for experimentation.
 The original code started as a [gist here](https://gist.github.com/jcpsantiago/320e3665a9bd749fc25ede0341c6323c).
