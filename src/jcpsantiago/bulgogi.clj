@@ -6,7 +6,7 @@
   [features -ns]
   (->> features
        (map #(let [sym (symbol %)]
-               (ns-resolve -ns sym)))))
+               (ns-resolve (find-ns -ns) sym)))))
 
 
 (defn- transformed
