@@ -32,5 +32,11 @@ printf '{
  and three rows in the `calculation_history` table, one for each feature name-value pair.
  Try the same request but add `hour` to the `features` array.
  
+ ## Expanding it
+ This example only has three features: `n-chars-in-email-name`, `n-digits-in-email-name` and `hour`.
+ To expand it and add more, you can simply add new functions which expect an `input-data` map as input to the `example.main` namespace.
+ 
+ It's possible to refactor the single namespace into any sort of organisation you like, as long as a single namespace is passed to `preprocessed`.
+ 
  ## TODO
  * train simple model using data from the feature store
