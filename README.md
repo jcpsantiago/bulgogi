@@ -10,7 +10,7 @@ categorical variables (e.g. a country variable).
 
 To create these numerical representations, and create other interesting
 variables aka _features_, we must pass data through a preprocessing step
-aka _feature engineering_. If you work in an environment with several data science teams, it is likely several teams have reimplemented the same feature engineering code in different projects. This is especially true in polyglot teams (e.g. some people prefer R, others Python).
+aka _feature engineering_. If you work in an environment with several data science teams, it is likely several teams have reimplemented the same feature engineering code in different projects. This is especially true in polyglot teams (e.g. some people prefer R, others Python, yet a growing number Clojure).
 
 `bulgogi` is a system to simplify this process, via centralization of
 concerns and coupling with a feature store [[1](https://www.tecton.ai/blog/what-is-a-feature-store/)]
