@@ -22,6 +22,10 @@ Presently, `bulgogi` is nothing more than an idea and this repository is a
 playground for experimentation.
 The original code started as a [gist here](https://gist.github.com/jcpsantiago/320e3665a9bd749fc25ede0341c6323c).
 
+Although this introduction and examples in [/example](https://github.com/jcpsantiago/bulgogi/tree/main/example) 
+focus on using `bulgogi` within the context of production ML models, this library is 
+generic enough for other use-cases where mapping arbitrary functions over data is useful.
+
 I gave a [talk](https://youtu.be/3C1QQXEg_F8?t=25091) at [re:Clojure 2021](http://www.reclojure.org/#schedule) about it.
 
 Ideas and discussion are welcome!
@@ -59,3 +63,4 @@ Finally, it returns a map with the preprocessed data
 {:n-digits-in-email-name 2
  :contains-risky-item 1}
 ```
+
