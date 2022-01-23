@@ -22,13 +22,12 @@
 (defn n-digits-in-email-name
   "Number of digits in the email name"
   [{email :email}]
-  ;; we get dependency management for free because everything is just functions
   (->> (email-name email)
        (re-seq #"\d")
        count))
 
 
-(defn n-chars-in-email-mail
+(defn n-chars-in-email-name
   "Number of characters in the email name i.e. length of the email name"
   [{email :email}]
   (-> (email-name email)
@@ -59,12 +58,28 @@
        (some #(= 1 %))
        boolean->int))
 
+
 (defn ^{:bulgogi/co-effect ::added} needs-co-effect
   [{data ::added}]
   data)
 
-(defn added [_]
+
+(defn added
+  [_]
   {::added "some data"})
+
+
+(defn email-name-as-co-effect
+  [{email :email}]
+  {::email-name-as-co-effect (-> email
+                                 s/lower-case
+                                 (s/replace-first #"@.*" ""))})
+
+
+(defn ^{:bulgogi/co-effect ::email-name-as-co-effect} n-chars-in-email-name-w-co-effect
+  [{email-name-as-co-effect ::email-name-as-co-effect}]
+  (count email-name-as-co-effect))
+
 
 (def test-input
   {:current-amount 700
@@ -72,6 +87,7 @@
    :email "squadron42@starfleet.ufp"
    :items [{:brand "Foo Industries" :value 1234}
            {:brand "Baz Corp" :value 35345}]})
+
 
 (deftest preprocessed
   (testing "basics"
@@ -87,4 +103,9 @@
     (is (= {:needs-co-effect "some data"}
            (SUT/preprocessed {:input-data test-input
                               :features ["needs-co-effect"]}
+                             'jcpsantiago.bulgogi-test))))
+  (testing "co-effect complex feature"
+    (is (= {:n-chars-in-email-name-w-co-effect 10}
+           (SUT/preprocessed {:input-data test-input
+                              :features ["n-chars-in-email-name-w-co-effect"]}
                              'jcpsantiago.bulgogi-test)))))
