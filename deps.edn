@@ -2,13 +2,10 @@
  :deps {org.clojure/clojure {:mvn/version "1.10.1"}}
  :aliases
  {:test {:extra-paths ["test"]
-         :extra-deps {org.clojure/test.check {:mvn/version "1.0.0"}}}
-  :runner
-  {:extra-deps {com.cognitect/test-runner
-                {:git/url "https://github.com/cognitect-labs/test-runner"
-                 :sha "b6b3193fcc42659d7e46ecd1884a228993441182"}}
-   :main-opts ["-m" "cognitect.test-runner"
-               "-d" "test"]}
+         :extra-deps {io.github.cognitect-labs/test-runner
+                      {:git/tag "v0.5.0" :git/sha "b3fd0d2"}}
+         :main-opts ["-m" "cognitect.test-runner"]
+         :exec-fn cognitect.test-runner.api/test}
   :jar {:extra-deps {seancorfield/depstar {:mvn/version "1.1.128"}}
         :main-opts ["-m" "hf.depstar.jar" "bulgogi.jar"]}
   :install {:extra-deps {slipset/deps-deploy {:mvn/version "0.1.1"}}
