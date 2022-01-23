@@ -93,7 +93,7 @@
                 "n-digits-in-email-name"]})
   (def res
     (-> req
-        b/preprocessed)))
+        (b/preprocessed 'example.main))))
 
 
 (defroutes routes

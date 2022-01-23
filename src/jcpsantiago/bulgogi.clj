@@ -1,6 +1,7 @@
 (ns jcpsantiago.bulgogi
   " À-la-carte transformations of data, useful in ML systems.")
 
+(defonce ^:private feature-cache (atom {}))
 
 (defn- resolved-features
   [features -ns]
@@ -8,11 +9,27 @@
        (map #(let [sym (symbol %)]
                (ns-resolve (find-ns -ns) sym)))))
 
-
 (defn- transformed
   [input-data fns]
   (pmap #(% input-data) fns))
 
+(defn- enriched
+  [input-data fns]
+  (if (empty? fns)
+    input-data
+    (->> fns
+         (pmap #(% input-data))
+         (apply merge))))
+
+(def ^:private memoized-features
+  (memoize resolved-features))
+
+(def ^:private memoized-co-effects
+  (memoize (fn [fn-vars]
+             (->> fn-vars
+                  (map #(:bulgogi/co-effect (meta %)))
+                  (remove nil?)
+                  (map #(ns-resolve (symbol (namespace %)) (symbol (name %))))))))
 
 (defn preprocessed
   "
@@ -31,7 +48,8 @@
   "
   [req -ns]
   (let [{:keys [input-data features]} req
-        fns (resolved-features features -ns)
+        fns (memoized-features features -ns)
+        co-effects (memoized-co-effects fns)
         fn-ks (map keyword features)]
-    (->> (transformed input-data fns)
+    (->> (transformed (enriched input-data co-effects) fns)
          (zipmap fn-ks))))
