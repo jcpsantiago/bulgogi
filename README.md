@@ -1,3 +1,5 @@
+[![Run tests](https://github.com/jcpsantiago/bulgogi/actions/workflows/run-tests.yaml/badge.svg)](https://github.com/jcpsantiago/bulgogi/actions/workflows/run-tests.yaml)
+
 # bulgogi
 Helper for ML feature preprocessing. Very tasty.
 
