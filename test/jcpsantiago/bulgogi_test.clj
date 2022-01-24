@@ -1,8 +1,9 @@
 (ns jcpsantiago.bulgogi-test
   (:require
+    [clojure.string :as s]
     [clojure.test :refer :all]
-    [jcpsantiago.bulgogi :as SUT]
-    [clojure.string :as s]))
+    [jcpsantiago.bulgogi :as SUT]))
+
 
 (defn boolean->int
   "Cast a boolean to 1/0 integer indicator"
@@ -59,7 +60,7 @@
        boolean->int))
 
 
-(defn ^{:bulgogi/co-effect ::added} needs-co-effect
+(defn ^{:bulgogi/coeffect ::added} needs-coeffect
   [{data ::added}]
   data)
 
@@ -69,16 +70,16 @@
   {::added "some data"})
 
 
-(defn email-name-as-co-effect
+(defn email-name-as-coeffect
   [{email :email}]
-  {::email-name-as-co-effect (-> email
-                                 s/lower-case
-                                 (s/replace-first #"@.*" ""))})
+  {::email-name-as-coeffect (-> email
+                                s/lower-case
+                                (s/replace-first #"@.*" ""))})
 
 
-(defn ^{:bulgogi/co-effect ::email-name-as-co-effect} n-chars-in-email-name-w-co-effect
-  [{email-name-as-co-effect ::email-name-as-co-effect}]
-  (count email-name-as-co-effect))
+(defn ^{:bulgogi/coeffect ::email-name-as-coeffect} n-chars-in-email-name-w-coeffect
+  [{email-name-as-coeffect ::email-name-as-coeffect}]
+  (count email-name-as-coeffect))
 
 
 (def test-input
@@ -99,13 +100,13 @@
                                          "contains-risky-item"
                                          "diff-eur-previous-order"]}
                              'jcpsantiago.bulgogi-test))))
-  (testing "co-effect"
-    (is (= {:needs-co-effect "some data"}
+  (testing "coeffect"
+    (is (= {:needs-coeffect "some data"}
            (SUT/preprocessed {:input-data test-input
-                              :features ["needs-co-effect"]}
+                              :features ["needs-coeffect"]}
                              'jcpsantiago.bulgogi-test))))
-  (testing "co-effect complex feature"
-    (is (= {:n-chars-in-email-name-w-co-effect 10}
+  (testing "coeffect complex feature"
+    (is (= {:n-chars-in-email-name-w-coeffect 10}
            (SUT/preprocessed {:input-data test-input
-                              :features ["n-chars-in-email-name-w-co-effect"]}
+                              :features ["n-chars-in-email-name-w-coeffect"]}
                              'jcpsantiago.bulgogi-test)))))
