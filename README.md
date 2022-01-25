@@ -20,9 +20,9 @@ concerns and coupling with a feature store [[1](https://www.tecton.ai/blog/what-
 
 ![a diagram showing bulgogi getting requests from a model in production, storing the results to a database and training a new model with data from that database without redoing feature engineering](/doc/bulgogi_diagram.png "Bulgogi as the central feature repository")
 
-Presently, `bulgogi` is nothing more than an idea and this repository is a
-playground for experimentation.
-The original code started as a [gist here](https://gist.github.com/jcpsantiago/320e3665a9bd749fc25ede0341c6323c).
+Presently, `bulgogi` is an idea and this repository is a
+playground for experimentation. Examples of applications and use-cases will be added as development evolves.
+The original code started as a [gist here](https://gist.github.com/jcpsantiago/320e3665a9bd749fc25ede0341c6323c). 
 
 Although this introduction and examples in [/example](https://github.com/jcpsantiago/bulgogi/tree/main/example) 
 focus on using `bulgogi` within the context of production ML models, this library is 
