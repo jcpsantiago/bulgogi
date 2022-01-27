@@ -36,7 +36,7 @@ printf '{
  This example only has three features: `n-chars-in-email-name`, `n-digits-in-email-name` and `hour`.
  To expand it and add more, you can simply add new functions which expect an `input-data` map as input to the `example.main` namespace.
  
- It's possible to refactor the single namespace into any sort of organisation you like, as long as a single namespace is passed to `preprocessed`.
+ It's possible to refactor the single namespace into any sort of organisation you like, as long as a single namespace is passed to `preprocessed`. Although be careful with naming conflicts, a problem we haven't solved yet (see discussion in https://github.com/jcpsantiago/bulgogi/issues/6).
  
  ## TODO
  * train simple model using data from the feature store
