@@ -1,8 +1,9 @@
 (ns jcpsantiago.bulgogi-test
   (:require
-    [clojure.string :as s]
-    [clojure.test :refer :all]
-    [jcpsantiago.bulgogi :as SUT]))
+   [clojure.string :as s]
+   [clojure.test :refer :all]
+   [jcpsantiago.features]
+   [jcpsantiago.bulgogi :as SUT]))
 
 
 (defn boolean->int
@@ -110,3 +111,11 @@
            (SUT/preprocessed {:input-data test-input
                               :features ["n-chars-in-email-name-w-coeffect"]}
                              'jcpsantiago.bulgogi-test)))))
+
+(deftest all-features
+  (testing "finds features in marked ns"
+    (is (= '(distinct-feature1 feature1)
+           (keys (SUT/all-features)))))
+  (testing "throws on conflict"
+    (require '[jcpsantiago.features2])
+    (is (thrown-with-msg? Exception #"^Conflict" (SUT/all-features)))))

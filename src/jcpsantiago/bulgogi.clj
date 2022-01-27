@@ -60,3 +60,22 @@
         fn-ks (map keyword features)]
     (->> (transformed (enriched input-data coeffects) fns)
          (zipmap fn-ks))))
+
+(defn all-features 
+  "Returns a map of feature-name -> feature-var"
+  []  
+  (->> (all-ns)
+       (filter #(::features (meta %)))
+       (map ns-publics)
+       (apply merge-with #(throw (Exception. (str "Conflict between: " %1 " and :" %2))))))
+
+(defn- feature-conflicts? []
+  (->> (all-features)       
+       (mapcat keys)
+       distinct?))
+
+(all-features)
+
+(comment
+  (all-features)
+  (feature-conflicts?))
