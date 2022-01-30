@@ -1,7 +1,10 @@
 (ns jcpsantiago.bulgogi-test
+  {:jcpsantiago.bulgogi/features true
+   :jcpsantiago.bulgogi/coeffects true}
   (:require
    [clojure.string :as s]
    [clojure.test :refer :all]
+   [clojure.set]
    [jcpsantiago.features]
    [jcpsantiago.bulgogi :as SUT]))
 
@@ -100,22 +103,26 @@
                               :features ["n-digits-in-email-name"
                                          "contains-risky-item"
                                          "diff-eur-previous-order"]}
-                             'jcpsantiago.bulgogi-test))))
+                             ))))
   (testing "coeffect"
     (is (= {:needs-coeffect "some data"}
            (SUT/preprocessed {:input-data test-input
                               :features ["needs-coeffect"]}
-                             'jcpsantiago.bulgogi-test))))
+                             ))))
   (testing "coeffect complex feature"
     (is (= {:n-chars-in-email-name-w-coeffect 10}
            (SUT/preprocessed {:input-data test-input
                               :features ["n-chars-in-email-name-w-coeffect"]}
-                             'jcpsantiago.bulgogi-test)))))
+                             )))))
 
 (deftest all-features
   (testing "finds features in marked ns"
-    (is (= '(distinct-feature1 feature1)
-           (keys (SUT/all-features)))))
+    (is (clojure.set/subset? #{'distinct-feature1 'feature1}
+                             (set (keys (SUT/all-features))))))
   (testing "throws on conflict"
     (require '[jcpsantiago.features2])
     (is (thrown-with-msg? Exception #"^Conflict" (SUT/all-features)))))
+
+(comment
+  
+  )

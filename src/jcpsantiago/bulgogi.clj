@@ -1,15 +1,34 @@
 (ns jcpsantiago.bulgogi
   " À-la-carte transformations of data, useful in ML systems.")
 
+(defn- all-special-functions
+  "Returns a map of feature-name -> feature-var"
+  ([fn-type]
+   (all-special-functions fn-type true))
+  ([fn-type namespaced?]
+   (->> (all-ns)
+        (filter #(fn-type (meta %)))
+        (map (fn [ns] (update-keys (ns-publics ns) #(if namespaced? (symbol (str ns) (str %)) %))))
+        (apply merge-with #(throw (Exception. (str "Conflict between: " %1 " and :" %2)))))))
 
-(defonce ^:private feature-cache (atom {}))
+
+(defn all-features
+  "Returns a map of feature-name -> fn-var"
+  []
+  (all-special-functions ::features false))
+
+
+(defn all-coeffects
+  "Returns a map of coeffect-name -> fn-var"
+  []
+  (all-special-functions ::coeffects))
 
 
 (defn- resolved-features
-  [features -ns]
-  (->> features
-       (map #(let [sym (symbol %)]
-               (ns-resolve (find-ns -ns) sym)))))
+  [features]
+  (let [all (all-features)]
+    (->> features
+         (map #(get all (symbol %))))))
 
 
 (defn- transformed
@@ -32,10 +51,11 @@
 
 (def ^:private memoized-coeffects
   (memoize (fn [fn-vars]
-             (->> fn-vars
-                  (map #(:bulgogi/coeffect (meta %)))
-                  (remove nil?)
-                  (map #(ns-resolve (symbol (namespace %)) (symbol (name %))))))))
+             (let [all (all-coeffects)]
+               (->> fn-vars
+                    (map #(:bulgogi/coeffect (meta %)))
+                    (remove nil?)
+                    (map #(all (symbol %))))))))
 
 
 (defn preprocessed
@@ -53,21 +73,14 @@
   Looks for the features in the namespace and applies them to the input-data
   in parallel. Returns a map of feature-keys and feature-values.
   "
-  [req -ns]
+  [req]
   (let [{:keys [input-data features]} req
-        fns (memoized-features features -ns)
+        fns (memoized-features features)
         coeffects (memoized-coeffects fns)
         fn-ks (map keyword features)]
     (->> (transformed (enriched input-data coeffects) fns)
          (zipmap fn-ks))))
 
-(defn all-features 
-  "Returns a map of feature-name -> feature-var"
-  []  
-  (->> (all-ns)
-       (filter #(::features (meta %)))
-       (map ns-publics)
-       (apply merge-with #(throw (Exception. (str "Conflict between: " %1 " and :" %2))))))
 
 (defn- feature-conflicts? []
   (->> (all-features)       
