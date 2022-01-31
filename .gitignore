@@ -10,3 +10,7 @@
 .hgignore
 .hg/
 .DS_Store
+.lsp
+.lh
+.calva
+.clj-kondo

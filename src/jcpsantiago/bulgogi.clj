@@ -1,17 +1,65 @@
 (ns jcpsantiago.bulgogi
   " À-la-carte transformations of data, useful in ML systems.")
 
+(defn- update-keys [m f]
+  (reduce-kv (fn [m k v]
+               (assoc m (f k) v)) {} m))
+               
+(defn- all-special-functions
+  "Returns a map of feature-name -> feature-var"
+  ([fn-type]
+   (all-special-functions fn-type true))
+  ([fn-type namespaced?]
+   (->> (all-ns)
+        (filter #(fn-type (meta %)))
+        (map (fn [ns] (update-keys (ns-publics ns) #(if namespaced? (symbol (str ns) (str %)) %))))
+        (apply merge-with #(throw (Exception. (str "Conflict between: " %1 " and :" %2)))))))
+
+
+(defn all-features
+  "Returns a map of feature-name -> fn-var"
+  []
+  (all-special-functions ::features false))
+
+
+(defn all-coeffects
+  "Returns a map of coeffect-name -> fn-var"
+  []
+  (all-special-functions ::coeffects))
+
 
 (defn- resolved-features
-  [features -ns]
-  (->> features
-       (map #(let [sym (symbol %)]
-               (ns-resolve (find-ns -ns) sym)))))
+  [features]
+  (let [all (all-features)]
+    (->> features
+         (map #(get all (symbol %))))))
 
 
 (defn- transformed
   [input-data fns]
   (pmap #(% input-data) fns))
+
+
+(defn- enriched
+  [input-data fns]
+  (if (empty? fns)
+    input-data
+    (->> fns
+         (pmap #(% input-data))
+         (apply merge))))
+
+
+(def ^:private memoized-features
+  (memoize resolved-features))
+
+
+(def ^:private memoized-coeffects
+  (memoize (fn [fn-vars]
+             (let [all (all-coeffects)]
+               (->> fn-vars
+                    (map #(:bulgogi/coeffect (meta %)))
+                    (remove nil?)
+                    (map #(all (symbol %))))))))
 
 
 (defn preprocessed
@@ -29,9 +77,22 @@
   Looks for the features in the namespace and applies them to the input-data
   in parallel. Returns a map of feature-keys and feature-values.
   "
-  [req -ns]
+  [req]
   (let [{:keys [input-data features]} req
-        fns (resolved-features features -ns)
+        fns (memoized-features features)
+        coeffects (memoized-coeffects fns)
         fn-ks (map keyword features)]
-    (->> (transformed input-data fns)
+    (->> (transformed (enriched input-data coeffects) fns)
          (zipmap fn-ks))))
+
+
+(defn- feature-conflicts? []
+  (->> (all-features)       
+       (mapcat keys)
+       distinct?))
+
+(all-features)
+
+(comment
+  (all-features)
+  (feature-conflicts?))
