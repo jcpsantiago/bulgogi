@@ -123,6 +123,3 @@
     (require '[jcpsantiago.features2])
     (is (thrown-with-msg? Exception #"^Conflict" (SUT/all-features)))))
 
-(comment
-  
-  )
