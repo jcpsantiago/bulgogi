@@ -1,6 +1,10 @@
 (ns jcpsantiago.bulgogi
   " À-la-carte transformations of data, useful in ML systems.")
 
+(defn- update-keys [m f]
+  (reduce-kv (fn [m k v]
+               (assoc m (f k) v)) {} m))
+               
 (defn- all-special-functions
   "Returns a map of feature-name -> feature-var"
   ([fn-type]
