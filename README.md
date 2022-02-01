@@ -76,4 +76,4 @@ Issues, PRs, ideas, criticism are all welcome :)
 * Declarative interface for calling external APIs as co-effects
 
 # License
-Bulgogi is shared under the MIT License.
+Bulgogi is shared under the Eclipse Public License 1.0.
