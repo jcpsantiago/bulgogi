@@ -66,3 +66,14 @@ Finally, it returns a map with the preprocessed data
  :contains-risky-item 1}
 ```
 
+# Contributing
+Issues, PRs, ideas, criticism are all welcome :)
+
+# TODO
+* Create a _reference implementation_, potentially dockerized for fast deployment and testing
+* Benchmark Bulgogi vs inlined code (gold standard) and other libraries
+* Experiment wrapping Pathom 3 to get more generalised dependency resolution
+* Declarative interface for calling external APIs as co-effects
+
+# License
+Bulgogi is shared under the MIT License.
