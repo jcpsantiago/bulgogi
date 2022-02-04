@@ -37,6 +37,18 @@ Ideas and discussion are welcome!
 This is definitly not a replacement for ML pipelines (sci-kit learn pipelines, tidymodels workflows) in all situations.
 If the cost of higher latency (no benchmarks yet about how much) is higher than the cost of quicker collaboration, then by all means use a pipeline.
 
+# Pros and cons
+## Pros
+In environments where multiple teams, or multiple people, need to ship ML models to live production environments, Bulgogi can
+* reduce the time it takes to engineer features -- maybe a teammate has build what you need already
+* decouple model training from deployment, so you ship smaller files, which load faster and need to track fewer things
+* allow ML practitioners to use whatever language they need to create models
+* reduce the amount of data cleaning and wrangling needed before training models
+
+## Cons
+* adds latency in comparison to inlined code (benchmarks soon!)
+* naming features needs to be explicit, and potentially long to avoid conflicts between namespaces e.g. if two areas of your company/team call different things by the same
+* all features must be written in Clojure (only a con if nobody knows Clojure in your team/company)
 
 # Installation
 
