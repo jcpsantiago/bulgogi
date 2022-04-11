@@ -86,6 +86,7 @@ Issues, PRs, ideas, criticism are all welcome :)
 * Benchmark Bulgogi vs inlined code (gold standard) and other libraries
 * Experiment wrapping Pathom 3 to get more generalised dependency resolution
 * Declarative interface for calling external APIs as co-effects
+* How to declaratively add input and output (streams, sinks, etc)
 
 # License
 Bulgogi is shared under the Eclipse Public License 1.0.
